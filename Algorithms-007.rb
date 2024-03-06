@@ -34,4 +34,3 @@ if answered_questions >= questions
 else
     puts "O tempo acabou, entregue a prova."
 end
-    
