@@ -1,5 +1,7 @@
 puts "A lâmpada está fora de alcance? s/n"
+
 user_answer = gets.chomp.downcase
+
 if user_answer == 's'
     lamp_out_of_range = true
 else
@@ -13,7 +15,9 @@ else
 end
 
 puts "A lâmpada está quente? s/n"
+
 user_answer = gets.chomp.downcase
+
 if user_answer == 's'
     lamp_hot = true 
 else

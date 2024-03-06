@@ -1,6 +1,8 @@
 puts "Olhar a previsão do tempo"
 print "Está sol? s/n"
+
 user_answer = gets.chomp.downcase
+
 if user_answer == 's'
     sol = true
 else
