@@ -1,5 +1,19 @@
 names = File.read('Algorithms-008.txt').split(',').map(&:strip)
 
+def draw_hangman(errors)
+    hangman_parts = [
+        "  ________\n  |      |\n  |\n  |\n   |\n__|__",
+        "  ________\n  |      |\n  |      O\n  |\n  |\n__|__",
+        "  ________\n  |      |\n  |      O\n  |      |\n  |\n__|__",
+        "  ________\n  |      |\n  |      O\n  |     /|\n  |\n__|__",
+        "  ________\n  |      |\n  |      O\n  |     /|\\\n  |\n__|__",
+        "  ________\n  |      |\n  |      O\n  |     /|\\\n  |     /\n__|__",
+        "  ________\n  |      |\n  |      O\n  |     /|\\\n  |     / \\\n__|__"
+      ]
+
+  hangman_parts[errors]
+end
+
 def clear
     system("clear") || system("cls")
 end
@@ -15,8 +29,12 @@ end
 name_array = name_drawn.chars
 
 found_letters = name_array.map { |letter| letter == ' ' }
+errors = 0
 
-while found_letters.include?(false)
+while found_letters.include?(false) && errors < 6
+    puts "\nPalavra: #{name_array.map { |letter| found_letters[name_array.index(letter)] ? letter : '_' }.join(' ')}"
+    puts "errors: #{errors}"
+
     print "Digite uma letra: "
     letter_wanted = gets.chomp.downcase
 
@@ -36,12 +54,21 @@ while found_letters.include?(false)
         puts "Nome: #{result.join(" ")}"
     else
         clear
+        draw_hangman(errors)
         puts "O nome não possui a letra #{letter_wanted.inspect}. Tente novamente."
         result = name_array.map.with_index do |letter, index|
             found_letters[index] ? letter: "_"
         end
         puts "Nome: #{result.join(" ")}"
+        errors += 1
     end
 end
 
-puts "Parabéns! Você encontrou todas as letras."
+if errors >= 6
+    clear
+    draw_hangman(errors)
+    puts "Você perdeu! O nome correto era: #{name_drawn}"
+else   
+    clear
+    puts "Parabéns! Você ganhou! O nome era: #{name_drawn}"
+end
