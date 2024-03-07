@@ -1,17 +1,18 @@
+require 'pry'
+
 names = File.read('Algorithms-008.txt').split(',').map(&:strip)
 
 def draw_hangman(errors)
     hangman_parts = [
-        "  ________\n  |      |\n  |\n  |\n   |\n__|__",
-        "  ________\n  |      |\n  |      O\n  |\n  |\n__|__",
-        "  ________\n  |      |\n  |      O\n  |      |\n  |\n__|__",
-        "  ________\n  |      |\n  |      O\n  |     /|\n  |\n__|__",
-        "  ________\n  |      |\n  |      O\n  |     /|\\\n  |\n__|__",
-        "  ________\n  |      |\n  |      O\n  |     /|\\\n  |     /\n__|__",
-        "  ________\n  |      |\n  |      O\n  |     /|\\\n  |     / \\\n__|__"
-      ]
-
-  hangman_parts[errors]
+      "  ________\n  |      |\n  |\n  |\n   |\n__|__",
+      "  ________\n  |      |\n  |      O\n  |\n  |\n__|__",
+      "  ________\n  |      |\n  |      O\n  |      |\n  |\n__|__",
+      "  ________\n  |      |\n  |      O\n  |     /|\n  |\n__|__",
+      "  ________\n  |      |\n  |      O\n  |     /|\\\n  |\n__|__",
+      "  ________\n  |      |\n  |      O\n  |     /|\\\n  |     / \\\n__|__"
+    ]
+  
+    puts hangman_parts[errors]
 end
 
 def clear
@@ -32,6 +33,7 @@ found_letters = name_array.map { |letter| letter == ' ' }
 errors = 0
 
 while found_letters.include?(false) && errors < 6
+    binding.pry
     puts "\nPalavra: #{name_array.map { |letter| found_letters[name_array.index(letter)] ? letter : '_' }.join(' ')}"
     puts "errors: #{errors}"
 
@@ -64,7 +66,7 @@ while found_letters.include?(false) && errors < 6
     end
 end
 
-if errors >= 6
+if errors >= 7
     clear
     draw_hangman(errors)
     puts "Você perdeu! O nome correto era: #{name_drawn}"
