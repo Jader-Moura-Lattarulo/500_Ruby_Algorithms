@@ -2,14 +2,14 @@ names = File.read('Algorithms-008.txt').split(',').map(&:strip)
 
 def draw_hangman(errors)
     hangman_parts = [
-      "  ________\n  |      |\n  |\n  |\n   |\n__|__",
-      "  ________\n  |      |\n  |      O\n  |\n  |\n__|__",
-      "  ________\n  |      |\n  |      O\n  |      |\n  |\n__|__",
-      "  ________\n  |      |\n  |      O\n  |     /|\n  |\n__|__",
-      "  ________\n  |      |\n  |      O\n  |     /|\\\n  |\n__|__",
-      "  ________\n  |      |\n  |      O\n  |     /|\\\n  |     / \\\n__|__"
+        "      +---+\n      |   |\n          |\n          |\n          |",
+        "      +---+\n      |   |\n      O   |\n          |\n          |",
+        "      +---+\n      |   |\n      O   |\n      |   |\n          |",
+        "      +---+\n      |   |\n      O   |\n     /|   |\n          |",
+        "      +---+\n      |   |\n      O   |\n     /|\\  |\n          |",
+        "      +---+\n      |   |\n      O   |\n     /|\\  |\n     /    |",
+        "      +---+\n      |   |\n      O   |\n     /|\\  |\n     / \\  |"
     ]
-  
     puts hangman_parts[errors]
 end
 
@@ -63,7 +63,7 @@ while found_letters.include?(false) && errors < 6
     end
 end
 
-if errors >= 7
+if errors >= 6
     clear
     draw_hangman(errors)
     puts "Você perdeu! O nome correto era: #{name_drawn}"
