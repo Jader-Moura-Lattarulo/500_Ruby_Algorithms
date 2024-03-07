@@ -1,5 +1,3 @@
-require 'pry'
-
 names = File.read('Algorithms-008.txt').split(',').map(&:strip)
 
 def draw_hangman(errors)
@@ -33,7 +31,6 @@ found_letters = name_array.map { |letter| letter == ' ' }
 errors = 0
 
 while found_letters.include?(false) && errors < 6
-    binding.pry
     puts "\nPalavra: #{name_array.map { |letter| found_letters[name_array.index(letter)] ? letter : '_' }.join(' ')}"
     puts "errors: #{errors}"
 
