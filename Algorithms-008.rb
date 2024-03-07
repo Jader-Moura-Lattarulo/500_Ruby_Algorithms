@@ -1,5 +1,9 @@
 names = File.read('Algorithms-008.txt').split(',').map(&:strip)
 
+def clear
+    system("clear") || system("cls")
+end
+
 if names.empty?
     puts "O arquivo está vazio. Não há nomes para sortear."
 else
@@ -10,7 +14,7 @@ end
 
 name_array = name_drawn.chars
 
-found_letters = Array.new(name_drawn.length, false)
+found_letters = name_array.map { |letter| letter == ' ' }
 
 while found_letters.include?(false)
     print "Digite uma letra: "
@@ -28,9 +32,14 @@ while found_letters.include?(false)
         result = name_array.map.with_index do |letter, index|
             found_letters[index] ? letter: "_"
         end
+        clear
         puts "Nome: #{result.join(" ")}"
     else
-        puts "Letra não encontrada. Tente novamente."
+        clear
+        puts "O nome não possui a letra #{letter_wanted.inspect}. Tente novamente."
+        result = name_array.map.with_index do |letter, index|
+            found_letters[index] ? letter: "_"
+        end
         puts "Nome: #{result.join(" ")}"
     end
 end
