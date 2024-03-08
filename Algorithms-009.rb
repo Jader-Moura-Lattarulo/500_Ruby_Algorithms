@@ -22,10 +22,9 @@ class Board
     end
 
     def display_board
-        puts "+---+---+---+"
-        @grid.each do |row|
-            puts "| #{row[0]} | #{row[1]} | #{row[2]} "
-            puts "-----------"
+        @grid.each_with_index do |row, i|
+            puts " #{row[0].value}  | #{row[1].value} | #{row[2].value} "
+            puts "+---+---+---+" if i < 2
         end
     end
 
@@ -97,6 +96,4 @@ class Player
 end
 
 board = Board.new
-game = TicTacToe.new(board)
-game.play
-
+board.display_board
