@@ -37,6 +37,14 @@ class Board
     private
 
     def winner?
+        (0..2).any? { |row| @grid[row].uniq.length == 1 && @grid[row][0]!= " " }
+
+        (0..2).any? { |col| [@grid[0][col], @grid[1][col], @grid[2][col]].uniq.length == 1 && @grid[0][col] != " "}
+
+        [
+            [@grid[0][0], @grid[1][1],@grid[2][2]].uniq.length == 1  && @grid[0][0] != " ",
+            [@grid[0][2], @grid[1][1],@grid[2][0]].uniq.length == 1  && @grid[0][2] != " "
+        ].any?
     end
 
     def draw?
