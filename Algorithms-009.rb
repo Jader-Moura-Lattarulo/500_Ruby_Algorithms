@@ -17,9 +17,15 @@ class Board
         @grid[x][y].value = value
     end
 
+    def get_cell(x, y)
+        @grid[x][y]
+    end
+
     def display_board
+        puts "+---+---+---+"
         @grid.each do |row|
-            puts row.map { |cell| cell.value}.join(" | ")
+            puts "| #{row[0]} | #{row[1]} | #{row[2]} "
+            puts "-----------"
         end
     end
 
