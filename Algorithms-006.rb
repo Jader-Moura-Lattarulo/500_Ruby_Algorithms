@@ -1,3 +1,5 @@
+#Descascar batatas
+
 puts "Pegar faca, bacia e as batatas."
 puts "Coloque água na bacia."
 print "Quantas batatas você ira descascar? "

@@ -1,3 +1,5 @@
+#Jogo da forca
+
 names = File.read('Algorithms-008.txt').split(',').map(&:strip)
 
 def draw_hangman(errors)

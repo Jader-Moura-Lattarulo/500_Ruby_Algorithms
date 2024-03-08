@@ -1,3 +1,5 @@
+#Fritar ovo
+
 puts "1 - Pegar frigideira, ovo, óleo e sal."
 puts "2 - Colocar óleo na frigideira."
 puts "3 - Acender o fogo."

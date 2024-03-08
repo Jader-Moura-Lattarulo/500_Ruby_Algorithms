@@ -1,3 +1,5 @@
+#Bolo simples
+
 puts "Pegue os ingredientes."
 print "Você está de roupa branca? s/n "
 user_answer = gets.chomp.downcase

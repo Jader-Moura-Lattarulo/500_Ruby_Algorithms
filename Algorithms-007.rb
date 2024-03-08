@@ -1,3 +1,5 @@
+#Fazer uma prova
+
 require 'timeout'
 
 puts "Leia a prova."

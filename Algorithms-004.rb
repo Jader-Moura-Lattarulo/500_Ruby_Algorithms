@@ -1,3 +1,5 @@
+#Final de semana
+
 puts "Olhar a previsão do tempo"
 print "Está sol? s/n"
 
