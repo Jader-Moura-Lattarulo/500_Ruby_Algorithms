@@ -48,6 +48,7 @@ class Board
     end
 
     def draw?
+        @grid.all? { |row| row.none? { |cell| cell == " "}} && !winner?
     end
 end
 
@@ -57,42 +58,37 @@ class TicTacToe
         @current_player = [Player.new(:x), Player.new(:o)].sample
     end
 
-    def Play
+    def play
         loop do 
-            display_board
+            @board.display_board
             puts "#{@current_player.name}: Entre com um número entre 1 e 9 para fazer sua jogada"
-            human_move = gets.chomp.to_i - 1
-            x, y = human_move_to_coordinate(human_move)
-            @board.set_cell(x, y, @current_player.token)
-            if @board.game_over = :winner
-                display_board
-                puts "Parabéns #{@current_player.name}!"
-                break
-            elsif @board.game_over == :draw
-                display_board
-                puts "Empatou!"
-                break
+            position = gets.chomp.to_i
+            x, y = convert_position_to_coordinates(position)
+            if valid_move?(@board, x, y)
+                make_move(x, y, @current_player.token)
+                if game_over?
+                    @board.display_board
+                    if winner?
+                        puts "Parabéns #{@current_player.token} você venceu!"
+                    else
+                        puts "Empatou!"
+                    end
+                    break
+                end
+            switch_player
             end
-            @current_player = @current_player == @Players[0] ? @Players[1] : @players[0]
         end
     end
 
     private
 
-    def human_move_to_coordinate(human_move)
-        mapping = {
-            0 =>[0, 0],
-            1 =>[0, 1],
-            2 =>[0, 2],
-            3 =>[1, 0],
-            4 =>[1, 1],
-            5 =>[1, 2],
-            6 =>[2, 0],
-            7 =>[2, 1],
-            8 =>[2, 2],
-        }
-        mapping[human_move]
+    def convert_position_to_coordinates(position)
+        x = (position - 1) / 3
+        y = (position - 1) % 3
+        [x, y]
     end
+
+    
 end
 
 class Player
@@ -105,3 +101,6 @@ end
 
 board = Board.new
 board.display_board
+
+game = TicTacToe.new(board)
+game.play
