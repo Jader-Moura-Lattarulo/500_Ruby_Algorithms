@@ -11,6 +11,16 @@ end
 class Board
     def initialize 
         @grid = Array.new(3) { Array.new(3) {Cell.new}}
+        @player_x = Player.new(:x)
+        @player_o = Player.new(:o)
+    end
+
+    def empty?(x,y)
+        @grid[x][y].empty?
+    end
+
+    def full?
+        @grid.flatten.none?(&:empty?)
     end
 
     def set_cell(x, y, value)
@@ -53,9 +63,9 @@ class Board
 end
 
 class TicTacToe
-    def initialize(board)
-        @board = board
-        @current_player = [Player.new(:x), Player.new(:o)].sample
+    def initialize(player_x, player_o)
+        @board = Board.new
+        @current_player = [player_x, player_o].sample
     end
 
     def play
@@ -75,8 +85,8 @@ class TicTacToe
                     end
                     break
                 end
-            switch_player
             end
+            switch_player
         end
     end
 
@@ -88,7 +98,26 @@ class TicTacToe
         [x, y]
     end
 
-    
+    def valid_move?(board, x, y)
+        board.empty?(x, y)
+    end
+
+    def make_move(x, y, token)
+        board.set_cell(x, y, token)
+    end
+
+    def game_over?
+        winner? || @board.full?
+    end
+
+    def winner?
+        @board.winner?
+    end
+
+    def switch_player
+        @current_player = @current_player == @board.player_x ? @board.player_o : @board.player_x
+    end
+
 end
 
 class Player
@@ -96,6 +125,14 @@ class Player
 
     def initialize(token)
         @token = token
+    end
+
+    def self.input_names
+        puts "Insira o nome do jogador que ira jogar com #{:x}:"
+        x_name = gets.chomp
+        puts "Insira o nome do jogador que ira jogar com #{:o}:"
+        o_name = gets.chomp
+        [Player.new(:x, x_name), Player.new(:o, o_name)]
     end
 end
 
