@@ -56,11 +56,11 @@ class Board
     end
   
     def make_move(board)
-      puts "#{@name}, it's your turn (1-9):"
+      puts "\n#{@name}, É sua vez (1-9):"
       position = gets.chomp.to_i - 1
       x, y = position.divmod(3)
       until board.empty?(x, y)
-        puts "Invalid move. Try again:"
+        puts "\nMovimento invalido. Tente outra vez:"
         position = gets.chomp.to_i - 1
         x, y = position.divmod(3)
       end
@@ -100,23 +100,22 @@ class Board
   
     def announce_result
       if @board.winner?(@current_player.mark)
-        puts "#{@current_player.name} wins!"
+        puts "\n#{@current_player.name} venceu!\n"
       else
-        puts "It's a draw!"
+        puts "\nDeu velha! Hahahaha...\n"
       end
     end
-  end
+end
   
-  # Main
-  puts "Welcome to Tic Tac Toe!"
-  puts "Player X, enter your name:"
-  name_x = gets.chomp
-  puts "Player O, enter your name:"
-  name_o = gets.chomp
   
-  player_x = Player.new(name_x, "X")
-  player_o = Player.new(name_o, "O")
+puts "Bem-vindo ao Jogo da Velha!"
+print "Jogador(a) X, Coloque o seu nome:"
+name_x = gets.chomp
+print "Jogador(a) O, Coloque o seu nome:"
+name_o = gets.chomp
   
-  game = TicTacToe.new(player_x, player_o)
-  game.play
+player_x = Player.new(name_x, "X")
+player_o = Player.new(name_o, "O")
   
+game = TicTacToe.new(player_x, player_o)
+game.play  
