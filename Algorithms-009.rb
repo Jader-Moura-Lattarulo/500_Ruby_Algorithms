@@ -6,6 +6,10 @@ class Cell
     def initialize(value = " ")
         @value = value
     end
+
+    def empty?
+        @value == " "
+    end
 end
 
 class Board
@@ -34,7 +38,7 @@ class Board
     def display_board
         @grid.each_with_index do |row, i|
             puts " #{row[0].value}  | #{row[1].value} | #{row[2].value} "
-            puts "+---+---+---+" if i < 2
+            puts "----+---+----" if i < 2
         end
     end
 
@@ -63,32 +67,38 @@ class Board
 end
 
 class TicTacToe
+    attr_reader :board, :current_player
+
     def initialize(player_x, player_o)
         @board = Board.new
         @current_player = [player_x, player_o].sample
     end
 
     def play
-        loop do 
-            @board.display_board
-            puts "#{@current_player.name}: Entre com um número entre 1 e 9 para fazer sua jogada"
-            position = gets.chomp.to_i
-            x, y = convert_position_to_coordinates(position)
-            if valid_move?(@board, x, y)
-                make_move(x, y, @current_player.token)
-                if game_over?
-                    @board.display_board
-                    if winner?
-                        puts "Parabéns #{@current_player.token} você venceu!"
-                    else
-                        puts "Empatou!"
-                    end
-                    break
-                end
+        players = Player.input_names
+        board = Board.new
+        game = TicTacToe.new(players[0], players[1])
+      
+        loop do
+          game.board.display_board
+          puts "#{game.current_player.name}: Entre com um número entre 1 e 9 para fazer sua jogada"
+          position = gets.chomp.to_i
+          x, y = game.convert_position_to_coordinates(position)
+          if game.valid_move?(game.board, x, y)
+            game.make_move(x, y, game.current_player.token)
+            if game.game_over?
+              game.board.display_board
+              if game.winner?
+                puts "Parabéns #{game.current_player.name}, você venceu!"
+              else
+                puts "Empatou!"
+              end
+              break
             end
-            switch_player
+          end
+          game.switch_player
         end
-    end
+      end
 
     private
 
@@ -103,7 +113,7 @@ class TicTacToe
     end
 
     def make_move(x, y, token)
-        board.set_cell(x, y, token)
+        @board.set_cell(x, y, token)
     end
 
     def game_over?
@@ -123,8 +133,13 @@ end
 class Player
     attr_accessor :name, :token
 
-    def initialize(token)
+    def initialize(token, name = nil)
         @token = token
+        @name = name
+    end
+
+    def token
+        @token
     end
 
     def self.input_names
@@ -136,8 +151,6 @@ class Player
     end
 end
 
-board = Board.new
-board.display_board
-
-game = TicTacToe.new(board)
+players = Player.input_names
+game = TicTacToe.new(players[0], players[1])
 game.play
