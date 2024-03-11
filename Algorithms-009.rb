@@ -1,20 +1,17 @@
+#Jogo da Velha
+
 class Board
     def initialize
       @grid = Array.new(3) { Array.new(3, " ") }
     end
   
     def display
-      @grid.each { |row| puts row.join(" | ") }
-      puts "----+---+----"
+      @grid.each_with_index do |row, i|
+        puts row.join("  |")
+        puts "---+---+---" unless i == 2
+      end
     end
 
-    #def display
-    #    @grid.each_with_index do |row, i|
-    #        puts " #{row[0].value}  | #{row[1].value} | #{row[2].value} "
-    #        puts "----+---+----" if i < 2
-    #    end
-    #end
-  
     def empty?(x, y)
       @grid[x][y] == " "
     end
