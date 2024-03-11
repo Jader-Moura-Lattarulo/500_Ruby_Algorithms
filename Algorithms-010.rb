@@ -1,5 +1,5 @@
 class Rio
-    attraccessor :lado_atual, :lado_oposto
+    attr_accessor :lado_atual, :lado_oposto
 
     def initialize
         @lado_atual = [:leao, :cabra, :grama]
@@ -31,3 +31,27 @@ class Rio
 
     def mostrar_estado
         puts "Lado Atual: #{@lado_atual.join(', ')}"
+        puts "Lado Oposto: #{@lado_oposto.join(', ')}"
+        puts "------------------------"
+    end
+end
+
+def resolver_problema
+    rio = Rio.new
+
+    rio.mostrar_estado
+    
+    rio.atravessar(:grama)
+    rio.voltar(:leao)
+    rio.atravessar(:leao)
+    rio.deixar(:leao)
+    rio.atravessar(:cabra)
+    rio.deixar(:cabra)
+    rio.voltar(:grama)
+    rio.atravessar(:leao)
+    rio.atravessar(:grama)
+
+    rio.mostrar_estado
+end
+
+resolver_problema
