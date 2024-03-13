@@ -5,11 +5,6 @@ def format(number, decimal_places)
     return sprintf("%.#{decimal_places}f", number)
 end
 
-def pow (base, exp)
-    result = base ** exp
-    return result
-end
-    
 def numeric_functions(input)
 
     pi = Math::PI
@@ -25,7 +20,7 @@ def numeric_functions(input)
 
     puts "Potência com exp, log e formatar: #{format(Math.exp(3*Math.log(8))+0.0001,3)}"
 
-    puts "Potência com operador ** e formatar: #{format(pow(8,3)+0.0001,3)}"
+    puts "Potência com operador ** e formatar: #{format(8.pow(3)+0.0001,3)}"
 
     puts "Raiz cubica: #{Math.exp(1/3*Math.log(8))}"
 
