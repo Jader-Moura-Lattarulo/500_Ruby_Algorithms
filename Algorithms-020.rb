@@ -8,10 +8,34 @@ def copy(user_input_01)
     puts "A variavel copy_input recebeu o valor: #{copy_input}"
 end
 
-def first_char(concat)
-    concat[0]
-    print "Primeira letra da palavra concatenada é: #{concat.upcase[0]}"
+def first_char(user_input_01, user_input_02)
+    concat = user_input_01 + user_input_02
+    first_char = concat[0].upcase
+    puts "Primeira letra da palavra concatenada é: #{first_char}"
 end
+
+def last_char(user_input_01, user_input_02)
+    concat = user_input_01 + user_input_02
+    last_char = concat[-1].upcase
+    puts "Primeira letra da palavra concatenada é: #{last_char}"
+end
+
+def all_but_first(user_input_01, user_input_02)
+    concat = user_input_01 + user_input_02
+    all_but_first = concat[1..-1].upcase
+    puts "Todos menos o primeiro: #{all_but_first}"
+end
+
+def third_element(user_input_01, user_input_02)
+    concat = user_input_01 + user_input_02
+    third_element = concat[2]
+    puts "O terceiro elemento é: #{third_element}"
+end
+
+def first_three_el(user_input_01, user_input_02)
+    concat = user_input_01 + user_input_02
+    
+    
 
 print "Digite a primeira palavra: "
 user_input_01 = gets.chomp
@@ -23,6 +47,18 @@ puts "O tamanho da primeira palavra é: #{user_input_01.length}"
 
 puts "A concatenação sem armazenamento é: #{user_input_01.upcase + user_input_02.upcase}"
 
-concatenate(user_input_01, user_input_02)
+concatenated = concatenate(user_input_01, user_input_02)
 
 copy(user_input_01)
+
+first_char(user_input_01, user_input_02)
+
+last_char(user_input_01, user_input_02)
+
+all_but_first(user_input_01, user_input_02)
+
+third_element(user_input_01, user_input_02)
+
+first_three_el(user_input_01, user_input_02)
+
+last_three_el(user_input_01, user_input_02)
