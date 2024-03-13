@@ -32,10 +32,15 @@ def third_element(user_input_01, user_input_02)
     puts "O terceiro elemento é: #{third_element}"
 end
 
-def first_three_el(user_input_01, user_input_02)
-    concat = user_input_01 + user_input_02
-    
-    
+def first_three_el(concatenated)
+    first_three_el = concatenated[0..2].upcase
+    puts "Os três primeiros elementos: #{first_three_el.upcase}"
+end
+
+def last_three_el(concatenated)
+    last_three_el = concatenated[-3..-1].upcase
+    puts "Os três últimos elementos: #{last_three_el.upcase}"
+end
 
 print "Digite a primeira palavra: "
 user_input_01 = gets.chomp
@@ -47,7 +52,7 @@ puts "O tamanho da primeira palavra é: #{user_input_01.length}"
 
 puts "A concatenação sem armazenamento é: #{user_input_01.upcase + user_input_02.upcase}"
 
-concatenated = concatenate(user_input_01, user_input_02)
+concatenated = (user_input_01 + user_input_02).upcase
 
 copy(user_input_01)
 
@@ -59,6 +64,6 @@ all_but_first(user_input_01, user_input_02)
 
 third_element(user_input_01, user_input_02)
 
-first_three_el(user_input_01, user_input_02)
+first_three_el(concatenated)
 
-last_three_el(user_input_01, user_input_02)
+last_three_el(concatenated)
