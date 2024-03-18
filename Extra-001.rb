@@ -3,8 +3,10 @@
 def draw_triangle(lines)
     lines.times do |i|
       spaces = ' ' * (lines - i - 1)
-      stars = '*' * (2 * i + 1)
-      puts "#{spaces}#{stars}"
+      trees = '🎄' * (1 * i + 1)
+      santa = '🧑🏿‍🎄' * (1 * i + 1)
+      puts "#{spaces}#{trees}"
+      p "#{spaces}#{santa}"
     end
 end
   
