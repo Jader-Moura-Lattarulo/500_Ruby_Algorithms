@@ -1,4 +1,4 @@
-#Algoritmo 25 - Otimizado
+#Algoritmo 25 - Com manipulação de String
 
 print "Digite a data no formato dd/mm/aaaa: "
 date = gets.chomp
