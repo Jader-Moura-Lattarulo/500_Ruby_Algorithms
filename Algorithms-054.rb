@@ -9,9 +9,8 @@ def validate_measurements(base_of_triangle, height_of_triangle)
         clear_console
         puts "A area só pode ser calculada com valores positivos."
         puts "Insira valores validos."
-        get_measurements
+        return get_measurements
     end
-    area_of_triangle(base_of_triangle, height_of_triangle)
     return base_of_triangle, height_of_triangle
 end
 
