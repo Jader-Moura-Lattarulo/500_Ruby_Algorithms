@@ -3,11 +3,11 @@
 class Test
     attr_accessor :test01, :test02, :real_average, :rounded_average
 
-    def initialize (test01, test02, real_average, rounded_average)
+    def initialize (test01, test02)
         @test01 = test01
         @test02 = test02
-        @real_average = real_average
-        @rounded_average = rounded_average
+        @real_average = (test01 + test02) / 2.0
+        @rounded_average = @real_average.round
 
     end
 
@@ -31,10 +31,16 @@ def valid_grade (grade)
     end
 end
 
-def average (test01, test02)
+def real_average (test01, test02)
     real_average = (test01+test02)/2
     rounded_average = real_average.round
-    return real_average, rounded_average
+    return real_average
+    rounded_average(real_average)
+end
+
+def rounded_average (real_average)
+    rounded_average = real_average.round
+    return rounded_average
 end
 
 print "Digite a nota que tirou na primeira prova: "
@@ -47,9 +53,8 @@ grade = gets.chomp.to_f
 valid_grade(grade)
 test02 = grade
 
-average(test01, test02)
-real_average = real_average
-rounded_average = rounded_average
+real_average = real_average(test01, test02)
+rounded_average = rounded_average(real_average)
 
 test = Test.new(test01,test02)
 test.print_results(real_average, rounded_average)
