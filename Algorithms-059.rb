@@ -41,5 +41,5 @@ cathetus01 = validate_side(get_side)
 print "Entre com o 2º cateto: "
 cathetus02 = validate_side(get_side)
 
-righttriangle = RightTriangle.new(cathetus01, cathetus02)
-righttriangle.print_result
+right_triangle = RightTriangle.new(cathetus01, cathetus02)
+right_triangle.print_result
