@@ -21,18 +21,21 @@ class ArithmeticProgression
 end
 
 def validate_number(number)
-    if number.is_a?(Integer)
+    begin
+        number = Integer(number)
         return number
-    else
-        puts "#{number} não é uma entrada válida, favor insira um número inteiro: "
-        number = gets.chomp.to_i
-        validate_number(number)
+    rescue ArgumentError
+        return nil
     end
 end
 
 def get_number
-    number = gets.chomp.to_i
-    return number
+    number = gets.chomp
+    until validate_number(number)
+        puts "#{number.inspect} não é uma entrada válida, favor insira um número inteiro: "
+        number = gets.chomp
+    end
+    return number.to_i
 end
 
 print "Entre com o 1º termo: "
