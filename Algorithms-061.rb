@@ -5,17 +5,40 @@ class GeometricProgression
     attr_accessor :first_term, :ratio, :fifth_term
 
     def initialize (first_term, ratio)
-    
+        @fifth_term = fifth_term
+        @ratio = ratio
+        @fifth_term = first_term * ratio ** 4
+    end
+
+    def print_result
+        puts "O 5º termo desta P.G. é: #{fifth_term}"        
     end
 end
 
+def validate_integer(number)
+    begin
+        user_input = Integer(number)
+        return(number)
+    rescue ArgumentError
+        return nil
+    end
+end
+
+def get_number
+    user_input = gets.chomp
+    until validate_integer(user_input)
+        puts "#{user_input.inspect} não é uma entrada válida, favor insira um número inteiro: "
+        user_input = gets.chomp
+    end
+    number = user_input.to_i 
+    return number
+end
 
 print "Entre com o 1º termo: "
-first_term = gets.chomp.to_i
+first_term = validate_integer(get_number)
 
 print "Entre com a razão: "
-ratio = getes.chomp.to_i
+ratio = validate_integer(get_number)
 
-fifth_term = first_term * ratio ** 4
-
-puts "O 5º termo desta P.G. é: #{fifth_term}"
+geometric_progression = GeometricProgression.new(first_term, ratio)
+geometric_progression.print_result
