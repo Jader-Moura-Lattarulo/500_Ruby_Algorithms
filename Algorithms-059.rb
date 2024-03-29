@@ -32,7 +32,7 @@ end
 def get_side
     side = gets.chomp
     until validate_side(side)
-        puts "#{side} não é um número, pfv insira um valor válido: "
+        puts "#{side.inspect} não é um número, pfv insira um valor válido: "
         side = gets.chomp
     end
     return side.to_f
