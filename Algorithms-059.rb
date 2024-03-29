@@ -21,18 +21,21 @@ class RightTriangle
 end
 
 def validate_side(side)
-    if side.is_a?(Float)
+    begin
+        side = Float(side)
         return side
-    else
-        puts "#{side} não é um número, pfv insira um valor válido: "
-        side = gets.chomp.to_f
-        validate_side(side)
+    rescue ArgumentError
+        return nil
     end
 end
 
 def get_side
-    side = gets.chomp.to_f
-    return side
+    side = gets.chomp
+    until validate_side(side)
+        puts "#{side} não é um número, pfv insira um valor válido: "
+        side = gets.chomp
+    end
+    return side.to_f
 end
 
 print "Entre com o 1º cateto: "
