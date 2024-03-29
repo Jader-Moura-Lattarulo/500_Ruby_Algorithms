@@ -22,7 +22,7 @@ end
 
 def validate_number(number)
     begin
-        number = Integer(number)
+        user_input = Integer(number)
         return number
     rescue ArgumentError
         return nil
@@ -30,12 +30,13 @@ def validate_number(number)
 end
 
 def get_number
-    number = gets.chomp
-    until validate_number(number)
-        puts "#{number.inspect} não é uma entrada válida, favor insira um número inteiro: "
-        number = gets.chomp
+    user_input = gets.chomp
+    until validate_number(user_input)
+        puts "#{user_input.inspect} não é uma entrada válida, favor insira um número inteiro: "
+        user_input = gets.chomp
     end
-    return number.to_i
+    number = user_input.to_i
+    return number
 end
 
 print "Entre com o 1º termo: "

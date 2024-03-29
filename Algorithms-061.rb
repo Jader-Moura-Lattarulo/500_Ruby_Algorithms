@@ -11,14 +11,20 @@ class GeometricProgression
     end
 
     def print_result
-        puts "O 5º termo desta P.G. é: #{fifth_term}"        
+        puts
+        puts "+-*-*-*-*-*-*-*-*-*-*-+"
+        puts 
+        puts "O 5º termo desta P.G. é: #{fifth_term}"
+        puts
+        puts "+-*-*-*-*-*-*-*-*-*-*-+"
+        puts         
     end
 end
 
 def validate_integer(number)
     begin
         user_input = Integer(number)
-        return(number)
+        return number
     rescue ArgumentError
         return nil
     end
