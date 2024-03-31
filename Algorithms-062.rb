@@ -8,33 +8,38 @@ class Product
     def initialize (product_name, price)
         @product_name = product_name
         @price = price
-        @today = Data.today
+        @today = Date.today.strftime("%d/%m/%Y")
         @discount = price * 0.09
         @discount_price = price * 0.91
     end
 
     def print_result
         puts
-        puts "          NOTA FISCAL          "
-        puts "-------------------------------"
-        puts "|   Produto:       |   Preço:  |"
-        puts "-------------------------------"
-        puts "|   #{product_name}          |   R$ 2.50 |"
-        puts "|                  |           |"
-        puts "|   Desconto        |   R$ #{discount} |"
-        puts "-------------------------------"
-        puts "|   Total:         |   R$ #{discount_price} |"
-        puts "-------------------------------"
-        puts "|   Data: #{today}           |"
-        puts "-------------------------------"
+        puts "O protuto #{product_name} tinha o valor R$#{format('%.2f', price)}, mas com o desconto de 9% passa a valer R$#{format('%.2f', discount_price)}"
+        puts "Boas compras!"
         puts
+        puts "---------------------------------"
+        puts "|         NOTA FISCAL           |"
+        puts "|-------------------------------|"
+        puts "|   Produto:\t|   Preço:  \t|"
+        puts "|-------------------------------|"
+        puts "|   #{product_name}\t|   R$ #{format('%.2f', price)}\t|"
+        puts "|           \t|           \t|"
+        puts "|   Desconto\t|   R$ #{format('%.2f', discount)}\t|"
+        puts "|-------------------------------|"
+        puts "|   Total:\t|   R$ #{format('%.2f', discount_price)}\t|"
+        puts "|-------------------------------|"
+        puts "|   \tData: #{today}\t|"
+        puts "---------------------------------"
+        puts
+        puts "Obrigado por comprar no Jader Shopping!"
     end
 end
 
-def validate_price(user_input)
+def validate_price(price)
     begin
-        user_input = Float(user_input)
-        return = price
+        user_input = Float(price)
+        return price
     rescue ArgumentError
         return nil
     end
@@ -43,7 +48,7 @@ end
 def get_price
     user_input = gets.chomp
     until validate_price(user_input)
-        puts "#{user_input} não é uma entrada valida, favor insira um valor real."
+        puts "#{user_input.inspect} não é uma entrada valida, favor insira um valor real."
         user_input = gets.chomp
     end
     price = user_input.chomp.to_f
@@ -54,9 +59,7 @@ print "Entre com o nome do produto: "
 product_name = gets.chomp
 
 print "Entre com o valor do produto: R$"
-user_input = gets.chomp
-validate_price(user_input)
+price = validate_price(get_price) 
 
-product = Product.new()
-
-puts "O produto #{product_name}, tinha o valor R$#{format('%.2f', price)}, com o desconto de 9% ficou em R$#{format('%.2f', discount_price)}."
+product = Product.new(product_name, price)
+product.print_result
