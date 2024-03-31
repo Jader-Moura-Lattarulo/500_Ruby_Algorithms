@@ -36,6 +36,16 @@ class Product
     end
 end
 
+def product_validate
+    loop do
+        print "Entre com o nome do produto: "
+        product_name = gets.chomp
+
+        return product_name if product_name =~ /^[a-zA-Z]+$/ && product_name.length > 3
+        puts "Produto inválido, o nome do Produto não pode começar com número e deve ter no mínimo 4 letras." 
+    end
+end
+
 def validate_price(price)
     begin
         user_input = Float(price)
@@ -55,8 +65,7 @@ def get_price
     return price
 end
 
-print "Entre com o nome do produto: "
-product_name = gets.chomp
+product_validate
 
 print "Entre com o valor do produto: R$"
 price = validate_price(get_price) 
