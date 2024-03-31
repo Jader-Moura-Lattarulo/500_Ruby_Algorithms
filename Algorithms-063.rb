@@ -7,4 +7,9 @@ worked_hours = gets.chomp.to_f
 print "Insira o valor da hora-aula: "
 hourly_wage = gets.chomp.to_f
 
-print "Insira o valor de horas após 22h"
+print "Insira o valor de horas após 22h: "
+hours_after_10pm = gets.chomp.to_f
+
+additional_night = hours_after_10pm * hourly_wage * 0.25
+
+gross_salary = (worked_hours * hourly_wage) + (additional_night) 
