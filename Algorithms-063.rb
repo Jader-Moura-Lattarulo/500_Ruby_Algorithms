@@ -17,14 +17,17 @@ gross_salary = (worked_hours * hourly_wage) + additional_night
 case gross_salary
 when 0..1100.0
     puts "faixa 01: 7,5%"
+    puts "#{gross_salary}"
     inss = gross_salary * 0.075
 when 1100.01..2203.48
     puts "faixa 02: 9%" 
+    puts "#{gross_salary}"
     inss = 1100 * 0.075
     count = (gross_salary - 1100) * 0.09
     inss = inss + count
 when 2203.49..3305.22
     puts "faixa 03: 12%"
+    puts "#{gross_salary}"
     inss = 1100 * 0.075
     count = (2203.48 - 1100) * 0.09
     inss = inss + count
@@ -32,6 +35,7 @@ when 2203.49..3305.22
     inss = inss + count
 when 3305.23..6433.57
     puts "faixa 04: 14%"
+    puts "#{gross_salary}"
     inss = 1100 * 0.075
     count = (2203.48 - 1100) * 0.09
     inss = inss + count
