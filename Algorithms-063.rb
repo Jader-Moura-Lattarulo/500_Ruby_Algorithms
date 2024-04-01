@@ -33,8 +33,6 @@ class PayStub
 end
 
 def time_format (valid_worked_time)
-    case valid_worked_time
-    when 0..1.59
     hours = worked_hours.to_i
     minutes = ((worked_hours - hours) * 60).to_i
 
@@ -43,17 +41,31 @@ def time_format (valid_worked_time)
     return worked_hours_formated
 end
 
-def validate_worked_time
+def validate_worked_time(user_input)
+    user_input = user_input.gsub(":", ".")
+    
+    if user_input =~ /^(?!.*\..*\.)(?!.*\.$)\d{1,3}(?:\.\d{1,2})?$/
+        value = user_input.to_f
+        hours = user_input.to_i
+        minutes = value - hours
+
+        if (value >= 0 && value <= 729 && minutes >= 0 && minutes < 60) || (hours == 730 && minutes == 0)
+            return true
+        end
+    end
+
+    return false
 end
 
 def get_worked_time
     user_input = gets.chomp
-    user_input = user_input.gsub(":", ".")
+
     until validate_worked_time (user_input)
         puts "#{user_input} não é uma entrada valida para tempo de trabalho, favor inserir o tempo de trabalho:"
         user_input = gets.chomp
         user_input = user_input.gsub(":", ".")
     end
+
     worked_time = user_input.to_f
     return worked_time
 end
@@ -65,7 +77,7 @@ def get_hours_after_10pm
 end
 
 print "Insira as horas trabalhadas: "
-worked_hours = gets.chomp.to_f
+worked_hours = valid_worked_time(get_worked_time)
 
 print "Insira o valor da hora-aula: "
 hourly_wage = gets.chomp.to_f
