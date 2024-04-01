@@ -3,13 +3,13 @@
 require 'date'
 
 class PayStub 
-    attr_accessor :worked_time, :hourly_wage, :hours_after_10pm, ; additional_night, ;gross_salary
+    attr_accessor :worked_time, :hourly_wage, :time_after_10pm, ; additional_night, ;gross_salary
 
     def initialize(worked_time, hourly_wage, hours_after_10pm)
         @worked_time = worked_time
         @hourly_wage = hourly_wage
-        @hours_after_10pm = hours_after_10pm
-        @additional_night = hours_after_10pm * hourly_wage * 0.25
+        @time_after_10pm = time_after_10pm
+        @additional_night = time_after_10pm * hourly_wage * 0.25
         @gross_salary = (worked_hours * hourly_wage) + additional_night
     end
 
@@ -32,35 +32,35 @@ class PayStub
     end
 end
 
-def time_format (valid_worked_time)
+def time_format (worked_time)
     hours = worked_hours.to_i
     minutes = ((worked_hours - hours) * 60).to_i
 
     time_formated = "%02d:%02d" % [hours, minutes]
 
-    return worked_hours_formated
+    return worked_time_formated
 end
 
-def validate_worked_time(user_input)
-    user_input = user_input.gsub(":", ".")
+def validate_worked_time(worked_time)
+    worked_time = worked_time.gsub(":", ".")
     
-    if user_input =~ /^(?!.*\..*\.)(?!.*\.$)\d{1,3}(?:\.\d{1,2})?$/
-        value = user_input.to_f
-        hours = user_input.to_i
+    if worked_time =~ /^(?!.*\..*\.)(?!.*\.$)\d{1,3}(?:\.\d{1,2})?$/
+        value = worked_time.to_f
+        hours = worked_time.to_i
         minutes = value - hours
 
         if (value >= 0 && value <= 729 && minutes >= 0 && minutes < 60) || (hours == 730 && minutes == 0)
-            return true
+            return worked_time
         end
+    else
+        return nil
     end
-
-    return false
 end
 
 def get_worked_time
     user_input = gets.chomp
 
-    until validate_worked_time (user_input)
+    until validate_worked_time(user_input)
         puts "#{user_input} não é uma entrada valida para tempo de trabalho, favor inserir o tempo de trabalho:"
         user_input = gets.chomp
         user_input = user_input.gsub(":", ".")
@@ -70,10 +70,44 @@ def get_worked_time
     return worked_time
 end
 
-def get_hourly_wage
+def validate_hourly_wage(hourly_wage)
+    begin
+        user_input = Float(hourly_wage)
+        return hourly_wage
+    rescue ArgumentError
+        return nil
+    end
 end
 
-def get_hours_after_10pm
+def get_hourly_wage
+    user_input = gets.chomp
+
+    until validate_hourly_wage(user_input)
+        puts "#{user_input} não é uma entrada valida para valor de hora-aula, favor inserir o valor da hora-aula: "
+        user_input = gets.chomp
+    end
+    hourly_wage = user_input.chomp.to_f
+    return hourly_wage
+end
+
+def validate_time_after_10pm(time_after_10pm)
+    time_after_10pm = time_after_10pm.gsub(":", ".")
+
+    if time_after_10pm =~ /^(?!.*\..*\.)(?!.*\.$)\d{1,3}(?:\.\d{1,2})?$/
+        value = user_input
+end
+
+def get_time_after_10pm
+    user_input = gets.chomp
+
+    until validate_time_after_10pm(user_input)
+        puts "#{user_input} não é uma entrada valida para tempo de horas após às 22h favor insira às horas trabalhadas após as 22h:"
+        user_input = gets.chomp
+        user_input = user_input.gsub(":", ".")
+    end
+
+    time_after_10pm = user_input.to_f
+    return time_after_10pm
 end
 
 print "Insira as horas trabalhadas: "
