@@ -40,6 +40,15 @@ def time_format (worked_hours)
     return time_formated
 end
 
+def get_worked_hours
+end
+
+def get_hourly_wage
+end
+
+def get_hours_after_10pm
+end
+
 print "Insira as horas trabalhadas: "
 worked_hours = gets.chomp.to_f
 
