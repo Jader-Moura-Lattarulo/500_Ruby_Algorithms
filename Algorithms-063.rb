@@ -129,29 +129,28 @@ def get_time_after_10pm
     return time_after_10pm
 end
 
-def inss_contribution_bracket
-    case inss (gross_salary)
+def inss_contribution_bracket (gross_salary)
+    case gross_salary
     when 0..1100.0
         #faixa 01: 7,5%
         inss = gross_salary * 0.075
+        return inss
     when 1100.01..2203.48
         #faixa 02: 9% 
-        range01 = 82.50
-        range02 = (gross_salary - 1100) * 0.09
-        inss = range01 + range02
+        inss = ((gross_salary - 1100) * 0.09) + 82.50
+        return inss
     when 2203.49..3305.22
-        #faixa 03: 12%
-        range01e02 = 181.81
-        range03 = (gross_salary - 2203.48) * 0.12
-        inss = range01e02 + range03
+        #faixa 03: 12% 
+        inss = ((gross_salary - 2203.48) * 0.12) + 181.81
+        return inss
     when 3305.23..6433.57
         #faixa 04: 14%
-        range01e02e03 = 314.02
-        range04 = (gross_salary - 3305.23) * 0.14
-        inss = range01e02e03 + range04
+        inss = ((gross_salary - 3305.23) * 0.14) + 314.02
+        return inss
     else
         #faixa 05: 14%
         inss = 776.75
+        return inss
     end
 end
 
