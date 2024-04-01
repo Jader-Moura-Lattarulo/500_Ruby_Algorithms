@@ -133,40 +133,25 @@ def inss_contribution_bracket
     case inss (gross_salary)
     when 0..1100.0
         #faixa 01: 7,5%
-        puts "#{gross_salary}"
         inss = gross_salary * 0.075
-        puts "#{inss}"
-        puts "#{gross_salary - inss}"
     when 1100.01..2203.48
         #faixa 02: 9% 
-        puts "#{gross_salary}"
-        inss = 1100 * 0.075
-        count = (gross_salary - 1100) * 0.09
-        inss = inss + count
-        puts "#{inss}"
-        puts "#{gross_salary - inss}"
+        range01 = 82.50
+        range02 = (gross_salary - 1100) * 0.09
+        inss = range01 + range02
     when 2203.49..3305.22
         #faixa 03: 12%
-        puts "#{gross_salary}"
-        inss = (1100 * 0.075) + (1103.48 * 0.09)
-        count = (gross_salary - 2203.48) * 0.12
-        inss = inss + count
-        puts "#{inss}"
-        puts "#{gross_salary - inss}"
+        range01e02 = 181.81
+        range03 = (gross_salary - 2203.48) * 0.12
+        inss = range01e02 + range03
     when 3305.23..6433.57
         #faixa 04: 14%
-        puts "#{gross_salary}"
-        inss = (1100 * 0.075) + (1103.48 * 0.09) + (1101.74 * 0.12)
-        count = (gross_salary - 3305.23) * 0.14
-        inss = inss + count
-        puts "#{inss}"
-        puts "#{gross_salary - inss}"
+        range01e02e03 = 314.02
+        range04 = (gross_salary - 3305.23) * 0.14
+        inss = range01e02e03 + range04
     else
-        #faxa 05: 14%
-        puts "#{gross_salary}"
-        inss = (1100 * 0.075) + (1103.48 * 0.09) + (1101.74 * 0.12) + (3305.23 * 0.14)
-        puts "#{inss}"
-        puts "#{gross_salary - inss}"
+        #faixa 05: 14%
+        inss = 776.75
     end
 end
 
