@@ -3,15 +3,16 @@
 require 'date'
 
 class PayStub 
-    attr_accessor :worked_time, :hourly_wage, :time_after_10pm, ; additional_night, ;gross_salary
+    attr_accessor :worked_time, :hourly_wage, :time_after_10pm, :additional_night, :gross_salary, :inss, :net_salary 
 
-    def initialize(worked_time, hourly_wage, time_after_10pm)
+    def initialize(worked_time, hourly_wage, time_after_10pm, additional_night, gross_salary, inss, net_salary)
         @worked_time = worked_time
         @hourly_wage = hourly_wage
         @time_after_10pm = time_after_10pm
         @additional_night = additional_night
         @gross_salary = gross_salary
         @inss = inss
+        @net_salary = gross_salary - inss
     end
 
     def print_pay_stub
@@ -23,9 +24,13 @@ class PayStub
         puts "|-------------------------------|"
         puts "|   Horas Trabalhadas\t|   #{format('%.2f', worked_hours)}\t|"
         puts "|           \t|           \t|"
-        puts "|   Desconto\t|   R$ #{format('%.2f', discount)}\t|"
+        puts "|   Adicional Noturno\t|   R$ #{format('%.2f', additional_night)}|"
+        puts "|           \t|           \t|"
+        puts "|   Salário Bruto\t|   R$ #{format('%.2f', gross_salary)}|"
+        puts "|           \t|           \t|"
+        puts "|   INSS\t|   -R$ #{format('%.2f', inss)}\t|"
         puts "|-------------------------------|"
-        puts "|   Total:\t|   R$ #{format('%.2f', discount_price)}\t|"
+        puts "|   Salário Líquido:\t|   R$ #{format('%.2f', net_salary)}\t|"
         puts "|-------------------------------|"
         puts "|   \tData: #{today}\t|"
         puts "---------------------------------"
@@ -178,3 +183,6 @@ additional_night = calculate_additional_night(time_after_10pm, hourly_wage)
 gross_salary = calculate_gross_salary(worked_hours, hourly_wage, additional_night)
 
 inss = inss_contribution_bracket(gross_salary)
+
+paystub01 = PayStub.new(worked_time, hourly_wage, time_after_10pm, additional_night, gross_salary, inss)
+paystub01.print_pay_stub
