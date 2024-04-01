@@ -57,8 +57,8 @@ def time_after_10pm_format (time_after_10pm)
 end
 
 def validate_worked_time(worked_time)
-    worked_time = worked_time.gsub(":", ".")
-    
+    worked_time = worked_time
+
     if worked_time =~ /^(?!.*\..*\.)(?!.*\.$)\d{1,3}(?:\.\d{1,2})?$/
         value = worked_time.to_f
         hours = worked_time.to_i
@@ -78,7 +78,7 @@ def get_worked_time
     until validate_worked_time(user_input)
         puts "#{user_input} não é uma entrada valida para tempo de trabalho, favor inserir o tempo de trabalho:"
         user_input = gets.chomp
-        user_input = user_input.gsub(":", ".")
+        user_input = user_input
     end
 
     worked_time = user_input.to_f
@@ -106,7 +106,7 @@ def get_hourly_wage
 end
 
 def validate_time_after_10pm(time_after_10pm)
-    time_after_10pm = time_after_10pm.gsub(":", ".")
+    time_after_10pm = time_after_10pm
 
     if time_after_10pm =~ /^(?!.*\..*\.)(?!.*\.$)\d{1,3}(?:\.\d{1,2})?$/
         value = time_after_10pm.to_f
@@ -127,7 +127,7 @@ def get_time_after_10pm
     until validate_time_after_10pm(user_input)
         puts "#{user_input} não é uma entrada valida para tempo de horas após às 22h favor insira às horas trabalhadas após as 22h:"
         user_input = gets.chomp
-        user_input = user_input.gsub(":", ".")
+        user_input = user_input
     end
 
     time_after_10pm = user_input.to_f
@@ -170,7 +170,7 @@ def inss_contribution_bracket(gross_salary)
 end
 
 print "Insira as horas trabalhadas: "
-worked_hours = valid_worked_time(get_worked_time)
+worked_hours = validate_worked_time(get_worked_time)
 
 print "Insira o valor da hora-aula: "
 hourly_wage = validate_hourly_wage(get_hourly_wage)
