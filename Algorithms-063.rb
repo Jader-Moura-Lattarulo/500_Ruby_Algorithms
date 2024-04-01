@@ -9,8 +9,8 @@ class PayStub
         @worked_time = worked_time
         @hourly_wage = hourly_wage
         @time_after_10pm = time_after_10pm
-        @additional_night = time_after_10pm * hourly_wage * 0.25
-        @gross_salary = (worked_hours * hourly_wage) + additional_night
+        @additional_night = additional_night
+        @gross_salary = gross_salary
         @inss = inss
     end
 
@@ -129,7 +129,17 @@ def get_time_after_10pm
     return time_after_10pm
 end
 
-def inss_contribution_bracket (gross_salary)
+def calculate_additional_night(time_after_10pm, hourly_wage)
+    additional_night = time_after_10pm * hourly_wage * 0.25
+    return additional_night
+end
+
+def calculate_gross_salary(worked_hours, hourly_wage, additional_night)
+    gross_salary = (worked_hours * hourly_wage) + additional_night
+    return gross_salary
+end
+
+def inss_contribution_bracket(gross_salary)
     case gross_salary
     when 0..1100.0
         #faixa 01: 7,5%
@@ -162,3 +172,9 @@ hourly_wage = validate_hourly_wage(get_hourly_wage)
 
 print "Insira o valor de horas após 22h: "
 time_after_10pm = validate_time_after_10pm(get_time_after_10pm)
+
+additional_night = calculate_additional_night(time_after_10pm, hourly_wage)
+
+gross_salary = calculate_gross_salary(worked_hours, hourly_wage, additional_night)
+
+inss = inss_contribution_bracket(gross_salary)
