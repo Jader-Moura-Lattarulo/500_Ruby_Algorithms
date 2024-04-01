@@ -5,12 +5,13 @@ require 'date'
 class PayStub 
     attr_accessor :worked_time, :hourly_wage, :time_after_10pm, ; additional_night, ;gross_salary
 
-    def initialize(worked_time, hourly_wage, hours_after_10pm)
+    def initialize(worked_time, hourly_wage, time_after_10pm)
         @worked_time = worked_time
         @hourly_wage = hourly_wage
         @time_after_10pm = time_after_10pm
         @additional_night = time_after_10pm * hourly_wage * 0.25
         @gross_salary = (worked_hours * hourly_wage) + additional_night
+        @inss = inss
     end
 
     def print_pay_stub
@@ -32,13 +33,22 @@ class PayStub
     end
 end
 
-def time_format (worked_time)
+def time_worked_format (worked_time)
     hours = worked_hours.to_i
     minutes = ((worked_hours - hours) * 60).to_i
 
     time_formated = "%02d:%02d" % [hours, minutes]
 
     return worked_time_formated
+end
+
+def time_after_10pm_format (time_after_10pm)
+    hours_after_10pm = time_after_10pm.to_i
+    minutes_after_10pm = ((time_after_10pm - hours_after_10pm) * 60).to_i
+
+    time_after_10pm_formated = "%02d:%02d" % [hours_after_10pm, minutes_after_10pm]
+
+    return time_after_10pm_formated
 end
 
 def validate_worked_time(worked_time)
@@ -94,7 +104,16 @@ def validate_time_after_10pm(time_after_10pm)
     time_after_10pm = time_after_10pm.gsub(":", ".")
 
     if time_after_10pm =~ /^(?!.*\..*\.)(?!.*\.$)\d{1,3}(?:\.\d{1,2})?$/
-        value = user_input
+        value = time_after_10pm.to_f
+        hours_after_10pm = time_after_10pm.to_i
+        minutes_after_10pm = value - hours_after_10pm
+
+        if (value >= 0 && value <= 59 && minutes_after_10pm >= 0 && minutes_after_10pm < 60) || (hours_after_10pm == 60 && minutes_after_10pm == 0)
+            return time_after_10pm
+        end
+    else
+        return nil
+    end
 end
 
 def get_time_after_10pm
@@ -110,50 +129,52 @@ def get_time_after_10pm
     return time_after_10pm
 end
 
+def inss_contribution_bracket
+    case inss (gross_salary)
+    when 0..1100.0
+        #faixa 01: 7,5%
+        puts "#{gross_salary}"
+        inss = gross_salary * 0.075
+        puts "#{inss}"
+        puts "#{gross_salary - inss}"
+    when 1100.01..2203.48
+        #faixa 02: 9% 
+        puts "#{gross_salary}"
+        inss = 1100 * 0.075
+        count = (gross_salary - 1100) * 0.09
+        inss = inss + count
+        puts "#{inss}"
+        puts "#{gross_salary - inss}"
+    when 2203.49..3305.22
+        #faixa 03: 12%
+        puts "#{gross_salary}"
+        inss = (1100 * 0.075) + (1103.48 * 0.09)
+        count = (gross_salary - 2203.48) * 0.12
+        inss = inss + count
+        puts "#{inss}"
+        puts "#{gross_salary - inss}"
+    when 3305.23..6433.57
+        #faixa 04: 14%
+        puts "#{gross_salary}"
+        inss = (1100 * 0.075) + (1103.48 * 0.09) + (1101.74 * 0.12)
+        count = (gross_salary - 3305.23) * 0.14
+        inss = inss + count
+        puts "#{inss}"
+        puts "#{gross_salary - inss}"
+    else
+        #faxa 05: 14%
+        puts "#{gross_salary}"
+        inss = (1100 * 0.075) + (1103.48 * 0.09) + (1101.74 * 0.12) + (3305.23 * 0.14)
+        puts "#{inss}"
+        puts "#{gross_salary - inss}"
+    end
+end
+
 print "Insira as horas trabalhadas: "
 worked_hours = valid_worked_time(get_worked_time)
 
 print "Insira o valor da hora-aula: "
-hourly_wage = gets.chomp.to_f
+hourly_wage = validate_hourly_wage(get_hourly_wage)
 
 print "Insira o valor de horas após 22h: "
-hours_after_10pm = gets.chomp.to_f
-
-case inss (gross_salary)
-when 0..1100.0
-    puts "faixa 01: 7,5%"
-    puts "#{gross_salary}"
-    inss = gross_salary * 0.075
-    puts "#{inss}"
-    puts "#{gross_salary - inss}"
-when 1100.01..2203.48
-    puts "faixa 02: 9%" 
-    puts "#{gross_salary}"
-    inss = 1100 * 0.075
-    count = (gross_salary - 1100) * 0.09
-    inss = inss + count
-    puts "#{inss}"
-    puts "#{gross_salary - inss}"
-when 2203.49..3305.22
-    puts "faixa 03: 12%"
-    puts "#{gross_salary}"
-    inss = (1100 * 0.075) + (1103.48 * 0.09)
-    count = (gross_salary - 2203.48) * 0.12
-    inss = inss + count
-    puts "#{inss}"
-    puts "#{gross_salary - inss}"
-when 3305.23..6433.57
-    puts "faixa 04: 14%"
-    puts "#{gross_salary}"
-    inss = (1100 * 0.075) + (1103.48 * 0.09) + (1101.74 * 0.12)
-    count = (gross_salary - 3305.23) * 0.14
-    inss = inss + count
-    puts "#{inss}"
-    puts "#{gross_salary - inss}"
-else
-    puts "faxa 05: 14%"
-    puts "#{gross_salary}"
-    inss = (1100 * 0.075) + (1103.48 * 0.09) + (1101.74 * 0.12) + (3305.23 * 0.14)
-    puts "#{inss}"
-    puts "#{gross_salary - inss}"
-end
+time_after_10pm = validate_time_after_10pm(get_time_after_10pm)
