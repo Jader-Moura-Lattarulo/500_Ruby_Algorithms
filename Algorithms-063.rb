@@ -1,11 +1,12 @@
 #Algoritmo que efetua o cálculo do salário líquido de um professor. Os dados fornecidos serão: valor da hora aula, número de aulas dadas no mês, hora atividade, adicional noturno caso a aula passe das 22h e percentual de desconto do INSS.
 #Algorithm that calculates a teacher's net salary. The data provided will be: hourly class fee, number of classes given in the month, activity time, additional night time if the class goes beyond 10pm and SSA discount percentage.
+require 'date'
 
 class PayStub 
-    attr_accessor :worked_hours, :hourly_wage, :hours_after_10pm, ; additional_night, ;gross_salary
+    attr_accessor :worked_time, :hourly_wage, :hours_after_10pm, ; additional_night, ;gross_salary
 
-    def initialize(worked_hours, hourly_wage, hours_after_10pm)
-        @worked_hours = worked_hours
+    def initialize(worked_time, hourly_wage, hours_after_10pm)
+        @worked_time = worked_time
         @hourly_wage = hourly_wage
         @hours_after_10pm = hours_after_10pm
         @additional_night = hours_after_10pm * hourly_wage * 0.25
@@ -31,16 +32,30 @@ class PayStub
     end
 end
 
-def time_format (worked_hours)
+def time_format (valid_worked_time)
+    case valid_worked_time
+    when 0..1.59
     hours = worked_hours.to_i
     minutes = ((worked_hours - hours) * 60).to_i
 
     time_formated = "%02d:%02d" % [hours, minutes]
 
-    return time_formated
+    return worked_hours_formated
 end
 
-def get_worked_hours
+def validate_worked_time
+end
+
+def get_worked_time
+    user_input = gets.chomp
+    user_input = user_input.gsub(":", ".")
+    until validate_worked_time (user_input)
+        puts "#{user_input} não é uma entrada valida para tempo de trabalho, favor inserir o tempo de trabalho:"
+        user_input = gets.chomp
+        user_input = user_input.gsub(":", ".")
+    end
+    worked_time = user_input.to_f
+    return worked_time
 end
 
 def get_hourly_wage
