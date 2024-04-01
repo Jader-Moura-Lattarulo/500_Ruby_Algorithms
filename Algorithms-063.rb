@@ -31,6 +31,15 @@ class PayStub
     end
 end
 
+def time_format (worked_hours)
+    hours = worked_hours.to_i
+    minutes = ((worked_hours - hours) * 60).to_i
+
+    time_formated = "%02d:%02d" % [hours, minutes]
+
+    return time_formated
+end
+
 print "Insira as horas trabalhadas: "
 worked_hours = gets.chomp.to_f
 
