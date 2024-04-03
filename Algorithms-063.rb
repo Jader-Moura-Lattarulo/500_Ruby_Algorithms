@@ -10,6 +10,8 @@ class PayStub
         @worked_time = worked_time
         @hourly_wage = hourly_wage
         @time_after_10pm = time_after_10pm
+        puts "Time after 10pm: #{@time_after_10pm}" # Adicionando mensagem de depuração
+        puts "Hourly wage: #{@hourly_wage}" # Adicionando mensagem de depuração
         @additional_night = additional_night
         @gross_salary = calculate_gross_salary
         @inss = inss_contribution_bracket
@@ -26,9 +28,9 @@ class PayStub
         puts "|---------------------------------------|"
         puts "|   Horas Trabalhadas\t|   #{format('%.2f', worked_time)}\t|"
         puts "|           \t\t|           \t|"
-        puts "|   Adicional Noturno\t|   R$ #{format('%.2f', additional_night)}\t|"
-        puts "|           \t\t|           \t|"
         puts "|   Hora Atividade\t|   R$ #{format('%.2f', activity_time)}\t|"
+        puts "|           \t\t|           \t|"
+        puts "|   Adicional Noturno\t|   R$ #{format('%.2f', additional_night)}\t|"
         puts "|           \t\t|           \t|"
         puts "|   Salário Bruto\t|   R$ #{format('%.2f', gross_salary)}\t|"
         puts "|           \t\t|           \t|"
@@ -44,7 +46,7 @@ class PayStub
     private
 
     def calculate_gross_salary
-        (worked_time * hourly_wage) + additional_night
+        (worked_time * hourly_wage) + additional_night + activity_time
     end
 
     def inss_contribution_bracket
@@ -69,7 +71,7 @@ class PayStub
     end
 
     def calculate_activity_time
-        gross_salary * 0.05
+        worked_time * hourly_wage * 0.05
     end
 end
 
@@ -90,7 +92,7 @@ def get_worked_time
     user_input = gets.chomp
 
     until (worked_time = validate_worked_time(user_input))
-        puts "#{user_input} não é uma entrada valida para tempo de trabalho, favor inserir o tempo de trabalho:"
+        puts "#{user_input} não é uma entrada válida para tempo de trabalho, favor inserir o tempo de trabalho:"
         user_input = gets.chomp
     end
 
@@ -105,7 +107,7 @@ def get_hourly_wage
     user_input = gets.chomp
 
     until (hourly_wage = validate_hourly_wage(user_input))
-        puts "#{user_input} não é uma entrada valida para valor de hora-aula, favor inserir o valor da hora-aula: "
+        puts "#{user_input} não é uma entrada válida para valor de hora-aula, favor inserir o valor da hora-aula: "
         user_input = gets.chomp
     end
 
@@ -129,7 +131,7 @@ def get_time_after_10pm
     user_input = gets.chomp
 
     until (time_after_10pm = validate_time_after_10pm(user_input))
-        puts "#{user_input} não é uma entrada valida para tempo de horas após às 22h favor insira às horas trabalhadas após as 22h:"
+        puts "#{user_input} não é uma entrada válida para horas após às 22h, favor inserir as horas trabalhadas após as 22h:"
         user_input = gets.chomp
     end
 
@@ -137,7 +139,11 @@ def get_time_after_10pm
 end
 
 def calculate_additional_night(time_after_10pm, hourly_wage)
-    time_after_10pm * hourly_wage * 0.25
+    puts "Time after 10pm: #{time_after_10pm}"
+    puts "Hourly wage: #{hourly_wage}"
+    additional_night = time_after_10pm * hourly_wage * 0.25
+    puts "Additional night: #{additional_night}"
+    additional_night
 end
 
 print "Insira as horas trabalhadas: "
