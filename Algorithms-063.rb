@@ -1,188 +1,148 @@
 #Algoritmo que efetua o cálculo do salário líquido de um professor. Os dados fornecidos serão: valor da hora aula, número de aulas dadas no mês, hora atividade, adicional noturno caso a aula passe das 22h e percentual de desconto do INSS.
 #Algorithm that calculates a teacher's net salary. The data provided will be: hourly class fee, number of classes given in the month, activity time, additional night time if the class goes beyond 10pm and SSA discount percentage.
+
 require 'date'
 
 class PayStub 
     attr_accessor :worked_time, :hourly_wage, :time_after_10pm, :additional_night, :gross_salary, :inss, :net_salary 
 
-    def initialize(worked_time, hourly_wage, time_after_10pm, additional_night, gross_salary, inss, net_salary)
+    def initialize(worked_time, hourly_wage, time_after_10pm, additional_night)
         @worked_time = worked_time
         @hourly_wage = hourly_wage
         @time_after_10pm = time_after_10pm
         @additional_night = additional_night
-        @gross_salary = gross_salary
-        @inss = inss
-        @net_salary = gross_salary - inss
+        @gross_salary = calculate_gross_salary
+        @inss = inss_contribution_bracket
+        @net_salary = @gross_salary - @inss
     end
 
     def print_pay_stub
         puts
-        puts "---------------------------------"
-        puts "|           HOLERITE            |"
-        puts "|-------------------------------|"
-        puts "|   Descrição\t|   Valor:  \t|"
-        puts "|-------------------------------|"
-        puts "|   Horas Trabalhadas\t|   #{format('%.2f', worked_hours)}\t|"
-        puts "|           \t|           \t|"
-        puts "|   Adicional Noturno\t|   R$ #{format('%.2f', additional_night)}|"
-        puts "|           \t|           \t|"
-        puts "|   Salário Bruto\t|   R$ #{format('%.2f', gross_salary)}|"
-        puts "|           \t|           \t|"
-        puts "|   INSS\t|   -R$ #{format('%.2f', inss)}\t|"
-        puts "|-------------------------------|"
+        puts "-----------------------------------------"
+        puts "|           \t HOLERITE               |"
+        puts "|---------------------------------------|"
+        puts "|   Descrição\t\t|   Valor:  \t|"
+        puts "|---------------------------------------|"
+        puts "|   Horas Trabalhadas\t|   #{format('%.2f', worked_time)}\t|"
+        puts "|           \t\t|           \t|"
+        puts "|   Adicional Noturno\t|   R$ #{format('%.2f', additional_night)}\t|"
+        puts "|           \t\t|           \t|"
+        puts "|   Salário Bruto\t|   R$ #{format('%.2f', gross_salary)}\t|"
+        puts "|           \t\t|           \t|"
+        puts "|   INSS\t\t| - R$ #{format('%.2f', inss)}\t|"
+        puts "|---------------------------------------|"
         puts "|   Salário Líquido:\t|   R$ #{format('%.2f', net_salary)}\t|"
-        puts "|-------------------------------|"
-        puts "|   \tData: #{today}\t|"
-        puts "---------------------------------"
+        puts "|---------------------------------------|"
+        puts "|   \t\tData: #{Date.today}\t|"
+        puts "-----------------------------------------"
         puts
+    end
+
+    private
+
+    def calculate_gross_salary
+        (worked_time * hourly_wage) + additional_night
+    end
+
+    def inss_contribution_bracket
+        gross_salary = calculate_gross_salary
+        case gross_salary
+        when 0..1100.0
+            #faixa 01: 7,5%
+            gross_salary * 0.075
+        when 1100.01..2203.48
+            #faixa 02: 9% 
+            ((gross_salary - 1100) * 0.09) + 82.50
+        when 2203.49..3305.22
+            #faixa 03: 12% 
+            ((gross_salary - 2203.48) * 0.12) + 181.81
+        when 3305.23..6433.57
+            #faixa 04: 14%
+            ((gross_salary - 3305.23) * 0.14) + 314.02
+        else
+            #faixa 05: 14%
+            776.75
+        end
     end
 end
 
-def time_worked_format (worked_time)
-    hours = worked_hours.to_i
-    minutes = ((worked_hours - hours) * 60).to_i
-
-    time_formated = "%02d:%02d" % [hours, minutes]
-
-    return worked_time_formated
-end
-
-def time_after_10pm_format (time_after_10pm)
-    hours_after_10pm = time_after_10pm.to_i
-    minutes_after_10pm = ((time_after_10pm - hours_after_10pm) * 60).to_i
-
-    time_after_10pm_formated = "%02d:%02d" % [hours_after_10pm, minutes_after_10pm]
-
-    return time_after_10pm_formated
-end
-
 def validate_worked_time(worked_time)
-    worked_time = worked_time
-
     if worked_time =~ /^(?!.*\..*\.)(?!.*\.$)\d{1,3}(?:\.\d{1,2})?$/
         value = worked_time.to_f
         hours = worked_time.to_i
         minutes = value - hours
 
         if (value >= 0 && value <= 729 && minutes >= 0 && minutes < 60) || (hours == 730 && minutes == 0)
-            return worked_time
+            return worked_time.to_f
         end
-    else
-        return nil
     end
+    nil
 end
 
 def get_worked_time
     user_input = gets.chomp
 
-    until validate_worked_time(user_input)
+    until (worked_time = validate_worked_time(user_input))
         puts "#{user_input} não é uma entrada valida para tempo de trabalho, favor inserir o tempo de trabalho:"
         user_input = gets.chomp
-        user_input = user_input
     end
 
-    worked_time = user_input.to_f
-    return worked_time
+    worked_time
 end
 
 def validate_hourly_wage(hourly_wage)
-    begin
-        user_input = Float(hourly_wage)
-        return hourly_wage
-    rescue ArgumentError
-        return nil
-    end
+    Float(hourly_wage) if hourly_wage.to_f > 0 rescue nil
 end
 
 def get_hourly_wage
     user_input = gets.chomp
 
-    until validate_hourly_wage(user_input)
+    until (hourly_wage = validate_hourly_wage(user_input))
         puts "#{user_input} não é uma entrada valida para valor de hora-aula, favor inserir o valor da hora-aula: "
         user_input = gets.chomp
     end
-    hourly_wage = user_input.chomp.to_f
-    return hourly_wage
+
+    hourly_wage
 end
 
 def validate_time_after_10pm(time_after_10pm)
-    time_after_10pm = time_after_10pm
-
     if time_after_10pm =~ /^(?!.*\..*\.)(?!.*\.$)\d{1,3}(?:\.\d{1,2})?$/
         value = time_after_10pm.to_f
         hours_after_10pm = time_after_10pm.to_i
         minutes_after_10pm = value - hours_after_10pm
 
         if (value >= 0 && value <= 59 && minutes_after_10pm >= 0 && minutes_after_10pm < 60) || (hours_after_10pm == 60 && minutes_after_10pm == 0)
-            return time_after_10pm
+            return time_after_10pm.to_f
         end
-    else
-        return nil
     end
+    nil
 end
 
 def get_time_after_10pm
     user_input = gets.chomp
 
-    until validate_time_after_10pm(user_input)
+    until (time_after_10pm = validate_time_after_10pm(user_input))
         puts "#{user_input} não é uma entrada valida para tempo de horas após às 22h favor insira às horas trabalhadas após as 22h:"
         user_input = gets.chomp
-        user_input = user_input
     end
 
-    time_after_10pm = user_input.to_f
-    return time_after_10pm
+    time_after_10pm
 end
 
 def calculate_additional_night(time_after_10pm, hourly_wage)
-    additional_night = time_after_10pm * hourly_wage * 0.25
-    return additional_night
-end
-
-def calculate_gross_salary(worked_hours, hourly_wage, additional_night)
-    gross_salary = (worked_hours * hourly_wage) + additional_night
-    return gross_salary
-end
-
-def inss_contribution_bracket(gross_salary)
-    case gross_salary
-    when 0..1100.0
-        #faixa 01: 7,5%
-        inss = gross_salary * 0.075
-        return inss
-    when 1100.01..2203.48
-        #faixa 02: 9% 
-        inss = ((gross_salary - 1100) * 0.09) + 82.50
-        return inss
-    when 2203.49..3305.22
-        #faixa 03: 12% 
-        inss = ((gross_salary - 2203.48) * 0.12) + 181.81
-        return inss
-    when 3305.23..6433.57
-        #faixa 04: 14%
-        inss = ((gross_salary - 3305.23) * 0.14) + 314.02
-        return inss
-    else
-        #faixa 05: 14%
-        inss = 776.75
-        return inss
-    end
+    time_after_10pm * hourly_wage * 0.25
 end
 
 print "Insira as horas trabalhadas: "
-worked_hours = validate_worked_time(get_worked_time)
+worked_time = get_worked_time
 
 print "Insira o valor da hora-aula: "
-hourly_wage = validate_hourly_wage(get_hourly_wage)
+hourly_wage = get_hourly_wage
 
 print "Insira o valor de horas após 22h: "
-time_after_10pm = validate_time_after_10pm(get_time_after_10pm)
+time_after_10pm = get_time_after_10pm
 
 additional_night = calculate_additional_night(time_after_10pm, hourly_wage)
 
-gross_salary = calculate_gross_salary(worked_hours, hourly_wage, additional_night)
-
-inss = inss_contribution_bracket(gross_salary)
-
-paystub01 = PayStub.new(worked_time, hourly_wage, time_after_10pm, additional_night, gross_salary, inss)
+paystub01 = PayStub.new(worked_time, hourly_wage, time_after_10pm, additional_night)
 paystub01.print_pay_stub
