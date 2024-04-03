@@ -4,7 +4,7 @@
 require 'date'
 
 class PayStub 
-    attr_accessor :worked_time, :hourly_wage, :time_after_10pm, :additional_night, :gross_salary, :inss, :net_salary 
+    attr_accessor :worked_time, :hourly_wage, :time_after_10pm, :additional_night, :gross_salary, :inss, :net_salary, :activity_time 
 
     def initialize(worked_time, hourly_wage, time_after_10pm, additional_night)
         @worked_time = worked_time
@@ -13,6 +13,7 @@ class PayStub
         @additional_night = additional_night
         @gross_salary = calculate_gross_salary
         @inss = inss_contribution_bracket
+        @activity_time = calculate_activity_time
         @net_salary = @gross_salary - @inss
     end
 
@@ -26,6 +27,8 @@ class PayStub
         puts "|   Horas Trabalhadas\t|   #{format('%.2f', worked_time)}\t|"
         puts "|           \t\t|           \t|"
         puts "|   Adicional Noturno\t|   R$ #{format('%.2f', additional_night)}\t|"
+        puts "|           \t\t|           \t|"
+        puts "|   Hora Atividade\t|   R$ #{format('%.2f', activity_time)}\t|"
         puts "|           \t\t|           \t|"
         puts "|   Salário Bruto\t|   R$ #{format('%.2f', gross_salary)}\t|"
         puts "|           \t\t|           \t|"
@@ -63,6 +66,10 @@ class PayStub
             #faixa 05: 14%
             776.75
         end
+    end
+
+    def calculate_activity_time
+        gross_salary * 0.05
     end
 end
 
